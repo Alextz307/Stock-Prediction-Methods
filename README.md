@@ -141,44 +141,5 @@ We used **Optuna** with the Tree-structured Parzen Estimator (TPE) sampler to ma
 *   **Trials**: Default 10 trials per strategy per ticker.
 *   **Parameters Optimized**:
     *   *Bollinger*: Window (10-50), k (1.0-3.0), Trend Window (50-252), MA Type (SMA/EMA).
-    *   *VolTarget*: Target Volatility (5%-40%).
+    *   *VolTarget*: Target Volatility (5%-40%), Trend Window (0-252), MA Type (SMA/EMA).
     *   *XGBoost*: MA Window (10-100), Probability Threshold (51%-70%).
-
-## 4. Results & Analysis
-
-The following results cover the Out-of-Sample period (Jan 2025 - Jan 2026).
-
-| Ticker | Strategy | Sharpe Ratio | Total Return | Max Drawdown | Analysis |
-|:---|:---|:---:|:---:|:---:|:---|
-| **PG** | **Bollinger** | **1.10** | **+7.19%** | **-3.00%** | **Outperformance**. The strategy successfully identified mean-reversion trades, generating profit while the Buy & Hold benchmark lost **-7.01%**. |
-| **TSLA**| **MomentumXGB**| **1.04** | **+20.37%**| **-14.50%**| **Alpha Generation**. Massive outperformance vs Benchmark (+2.4%). The ML filter successfully avoided whipsaws. |
-| **AAPL**| **MomentumXGB**| **2.46** | **+17.16%**| **-1.87%**| **Precision**. High-conviction ML signals led to double the benchmark return (+9.0%) with negligible drawdown. |
-| **NVDA** | **VolTarget** | **0.99** | **+18.10%**| **-13.92%**| **Risk Management**. Reduced Max Drawdown by **60%** (from -35% to -13%), offering a much smoother ride. |
-| **XOM** | **Bollinger** | **1.36** | **+12.73%**| **-9.27%** | **High Efficiency**. High Sharpe ratio indicates excellent risk-adjusted returns. |
-| **SPY** | **VolTarget** | **0.93** | **+16.45%**| **-18.56%**| **Market Match**. Closely tracked the benchmark (+18.1%) but failed to provide significant alpha in this regime. |
-| **META** | All | < 0.1 | < 0.9% | > -20% | **Underperformance**. Complex market conditions caused all active strategies to lag the flat benchmark. |
-
-### 4.1 Key Findings
-1.  **Regime Adaptation Works**: The Adaptive Bollinger strategy thrived in defensive stocks like PG, turning a negative market trend into a positive yield by shorting rallies or picking bottoms precisely.
-2.  **ML Filtering adds Value**: For volatile assets like TSLA, the XGBoost Gatekeeper effectively filtered out "fake" trends, significantly boosting returns (+20% vs +2%).
-3.  **Volatility Targeting is Defensive**: As expected, VolTargeting underperforms in strong bull runs (NVDA) but drastically cuts risk (Drawdown -13% vs -35%), making it ideal for risk-averse portfolios.
-
-## 5. Conclusion
-This project demonstrates that automated hyperparameter tuning combined with regime-aware logic can generate "Alpha" (excess returns) and reduce "Beta" (market risk). The system is particularly effective at:
-1.  **Protecting Capital**: Via Volatility Targeting and Stop-loss mechanics in Bollinger bands.
-2.  **Enhancing Yield**: In sideways or down-trending markets (e.g., PG) where Buy & Hold fails.
-3.  **Filtering Noise**: Using ML to avoid bad entries in volatile stocks (TSLA).
-
-## 6. Structure
-```
-├── config/             # Settings & Tuned Parameters (JSON)
-├── results/            # Charts & Reports
-├── scripts/            # Execution Scripts (Tune, Backtest)
-├── src/
-│   ├── data/           # Data Loading & Processing
-│   ├── engine/         # Backtest Engine
-│   ├── models/         # Implementation of GARCH, LSTM, XGBoost
-│   ├── optimization/   # Optuna Tuner
-│   └── strategies/     # Strategy Logic
-└── pyproject.toml      # Dependencies
-```
