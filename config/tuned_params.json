@@ -1,0 +1,189 @@
+{
+    "SPY": {
+        "VolTarget": {
+            "target_vol": 0.4,
+            "trend_window": 144,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 27,
+            "k": 2.5,
+            "trend_window": 150,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 98,
+            "prob_threshold": 0.53
+        }
+    },
+    "AAPL": {
+        "VolTarget": {
+            "target_vol": 0.31,
+            "trend_window": 200,
+            "ma_type": "ema"
+        },
+        "Bollinger": {
+            "window": 41,
+            "k": 2.1,
+            "trend_window": 192,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 77,
+            "prob_threshold": 0.68
+        }
+    },
+    "MSFT": {
+        "VolTarget": {
+            "target_vol": 0.08,
+            "trend_window": 243,
+            "ma_type": "ema"
+        },
+        "Bollinger": {
+            "window": 34,
+            "k": 1.9,
+            "trend_window": 210,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 51,
+            "prob_threshold": 0.64
+        }
+    },
+    "GOOG": {
+        "VolTarget": {
+            "target_vol": 0.28,
+            "trend_window": 28,
+            "ma_type": "ema"
+        },
+        "Bollinger": {
+            "window": 19,
+            "k": 1.2,
+            "trend_window": 59,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 94,
+            "prob_threshold": 0.56
+        }
+    },
+    "NVDA": {
+        "VolTarget": {
+            "target_vol": 0.060000000000000005,
+            "trend_window": 231,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 24,
+            "k": 2.3,
+            "trend_window": 164,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 34,
+            "prob_threshold": 0.64
+        }
+    },
+    "AMZN": {
+        "VolTarget": {
+            "target_vol": 0.2,
+            "trend_window": 91,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 11,
+            "k": 1.2,
+            "trend_window": 79,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 93,
+            "prob_threshold": 0.54
+        }
+    },
+    "META": {
+        "VolTarget": {
+            "target_vol": 0.28,
+            "trend_window": 16,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 47,
+            "k": 1.0,
+            "trend_window": 134,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 83,
+            "prob_threshold": 0.62
+        }
+    },
+    "TSLA": {
+        "VolTarget": {
+            "target_vol": 0.4,
+            "trend_window": 13,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 30,
+            "k": 1.7000000000000002,
+            "trend_window": 133,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 56,
+            "prob_threshold": 0.64
+        }
+    },
+    "KO": {
+        "VolTarget": {
+            "target_vol": 0.16999999999999998,
+            "trend_window": 49,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 26,
+            "k": 1.2,
+            "trend_window": 89,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 93,
+            "prob_threshold": 0.54
+        }
+    },
+    "PG": {
+        "VolTarget": {
+            "target_vol": 0.2,
+            "trend_window": 226,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 30,
+            "k": 1.9,
+            "trend_window": 187,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 69,
+            "prob_threshold": 0.67
+        }
+    },
+    "XOM": {
+        "VolTarget": {
+            "target_vol": 0.38,
+            "trend_window": 210,
+            "ma_type": "sma"
+        },
+        "Bollinger": {
+            "window": 21,
+            "k": 2.5,
+            "trend_window": 152,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 81,
+            "prob_threshold": 0.6
+        }
+    }
+}
