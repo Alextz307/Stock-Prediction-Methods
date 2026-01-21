@@ -9,7 +9,7 @@ class TechnicalIndicators:
     """
 
     @staticmethod
-    def rsi(series: pd.Series, period: int = settings.RSI_PERIOD) -> pd.Series:
+    def rsi(series: pd.Series, period: int = 14) -> pd.Series:
         """
         Relative Strength Index (RSI).
         
@@ -28,9 +28,9 @@ class TechnicalIndicators:
     @staticmethod
     def macd(
         series: pd.Series, 
-        fast: int = settings.MACD_FAST, 
-        slow: int = settings.MACD_SLOW, 
-        signal: int = settings.MACD_SIGNAL
+        fast: int = 12, 
+        slow: int = 26, 
+        signal: int = 9
     ) -> pd.DataFrame:
         """
         Moving Average Convergence Divergence (MACD).
@@ -53,8 +53,8 @@ class TechnicalIndicators:
     @staticmethod
     def bollinger_bands(
         series: pd.Series, 
-        period: int = settings.BOLLINGER_PERIOD, 
-        std_dev: float = settings.BOLLINGER_STD_DEV
+        period: int = 20, 
+        std_dev: float = 2.0
     ) -> pd.DataFrame:
         """
         Bollinger Bands.

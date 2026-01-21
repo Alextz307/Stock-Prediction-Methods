@@ -13,16 +13,28 @@ class DirectionalClassifier:
     """
 
     def __init__(self, params: dict[str, Any] | None = None) -> None:
-        self.model = xgb.XGBClassifier(
-            objective="binary:logistic",
-            n_estimators=settings.XGB_N_ESTIMATORS,
-            learning_rate=settings.XGB_LEARNING_RATE,
-            max_depth=settings.XGB_MAX_DEPTH,
-            random_state=42,
-            eval_metric="logloss"
-        )
+        default_params = {
+            "objective": "binary:logistic",
+            "n_estimators": 100,
+            "learning_rate": 0.05,
+            "max_depth": 5,
+            "random_state": 42,
+            "eval_metric": "logloss"
+        }
+        
         if params:
-            self.model.set_params(**params)
+            default_params.update(params)
+            
+        self.params = default_params
+        self.model = xgb.XGBClassifier(**self.params)
+
+    def set_params(self, **params):
+        """
+        Updates parameters and re-initializes the model.
+        """
+        
+        self.params.update(params)
+        self.model = xgb.XGBClassifier(**self.params)
 
     def fit(self, X_train: pd.DataFrame, y_train: pd.Series) -> None:
         """
@@ -44,6 +56,7 @@ class DirectionalClassifier:
         """
         Returns binary predictions (0 or 1).
         """
+        
         preds = self.model.predict(X)
         return pd.Series(preds, index=X.index)
     

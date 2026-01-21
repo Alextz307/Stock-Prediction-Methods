@@ -1,189 +1,366 @@
 {
-    "SPY": {
+    "AMZN": {
         "VolTarget": {
-            "target_vol": 0.4,
-            "trend_window": 144,
-            "ma_type": "sma"
-        },
-        "Bollinger": {
-            "window": 27,
-            "k": 2.5,
-            "trend_window": 150,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 98,
-            "prob_threshold": 0.53
-        }
-    },
-    "AAPL": {
-        "VolTarget": {
-            "target_vol": 0.31,
-            "trend_window": 200,
-            "ma_type": "ema"
-        },
-        "Bollinger": {
-            "window": 41,
-            "k": 2.1,
-            "trend_window": 192,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 77,
-            "prob_threshold": 0.68
-        }
-    },
-    "MSFT": {
-        "VolTarget": {
-            "target_vol": 0.08,
-            "trend_window": 243,
-            "ma_type": "ema"
-        },
-        "Bollinger": {
-            "window": 34,
-            "k": 1.9,
-            "trend_window": 210,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 51,
-            "prob_threshold": 0.64
-        }
-    },
-    "GOOG": {
-        "VolTarget": {
-            "target_vol": 0.28,
-            "trend_window": 28,
-            "ma_type": "ema"
-        },
-        "Bollinger": {
-            "window": 19,
-            "k": 1.2,
-            "trend_window": 59,
-            "ma_type": "ema"
-        },
-        "MomentumXGB": {
-            "ma_window": 94,
-            "prob_threshold": 0.56
-        }
-    },
-    "NVDA": {
-        "VolTarget": {
-            "target_vol": 0.060000000000000005,
-            "trend_window": 231,
-            "ma_type": "sma"
+            "target_vol": 0.27,
+            "trend_window": 46,
+            "ma_type": "sma",
+            "max_leverage": 2.5,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 32,
+            "lstm_lr": 0.00019828822658755945,
+            "lstm_layers": 1,
+            "lstm_lookback": 10,
+            "lstm_dropout": 0.30000000000000004
         },
         "Bollinger": {
             "window": 24,
-            "k": 2.3,
-            "trend_window": 164,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 34,
-            "prob_threshold": 0.64
-        }
-    },
-    "AMZN": {
-        "VolTarget": {
-            "target_vol": 0.2,
-            "trend_window": 91,
-            "ma_type": "sma"
-        },
-        "Bollinger": {
-            "window": 11,
-            "k": 1.2,
-            "trend_window": 79,
+            "k": 1.6,
+            "trend_window": 60,
             "ma_type": "ema"
         },
         "MomentumXGB": {
-            "ma_window": 93,
-            "prob_threshold": 0.54
-        }
-    },
-    "META": {
-        "VolTarget": {
-            "target_vol": 0.28,
-            "trend_window": 16,
-            "ma_type": "sma"
-        },
-        "Bollinger": {
-            "window": 47,
-            "k": 1.0,
-            "trend_window": 134,
-            "ma_type": "ema"
-        },
-        "MomentumXGB": {
-            "ma_window": 83,
-            "prob_threshold": 0.62
-        }
-    },
-    "TSLA": {
-        "VolTarget": {
-            "target_vol": 0.4,
-            "trend_window": 13,
-            "ma_type": "sma"
-        },
-        "Bollinger": {
-            "window": 30,
-            "k": 1.7000000000000002,
-            "trend_window": 133,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 56,
-            "prob_threshold": 0.64
-        }
-    },
-    "KO": {
-        "VolTarget": {
-            "target_vol": 0.16999999999999998,
-            "trend_window": 49,
-            "ma_type": "sma"
-        },
-        "Bollinger": {
-            "window": 26,
-            "k": 1.2,
-            "trend_window": 89,
-            "ma_type": "sma"
-        },
-        "MomentumXGB": {
-            "ma_window": 93,
-            "prob_threshold": 0.54
+            "ma_window": 45,
+            "prob_threshold": 0.51,
+            "max_depth": 6,
+            "learning_rate": 0.07256326287204283,
+            "n_estimators": 200,
+            "subsample": 0.8
         }
     },
     "PG": {
         "VolTarget": {
-            "target_vol": 0.2,
-            "trend_window": 226,
-            "ma_type": "sma"
+            "target_vol": 0.05,
+            "trend_window": 240,
+            "ma_type": "sma",
+            "max_leverage": 3.0,
+            "bearish_exposure": 0.30000000000000004,
+            "lstm_hidden_dim": 32,
+            "lstm_lr": 0.00043273873283370697,
+            "lstm_layers": 1,
+            "lstm_lookback": 60,
+            "lstm_dropout": 0.2
         },
         "Bollinger": {
-            "window": 30,
-            "k": 1.9,
-            "trend_window": 187,
+            "window": 32,
+            "k": 2.8,
+            "trend_window": 252,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 10,
+            "prob_threshold": 0.67,
+            "max_depth": 5,
+            "learning_rate": 0.018813795601796742,
+            "n_estimators": 150,
+            "subsample": 0.7
+        }
+    },
+    "AAPL": {
+        "VolTarget": {
+            "target_vol": 0.05,
+            "trend_window": 223,
+            "ma_type": "sma",
+            "max_leverage": 2.1,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.00014683459555982055,
+            "lstm_layers": 1,
+            "lstm_lookback": 25,
+            "lstm_dropout": 0.4
+        },
+        "Bollinger": {
+            "window": 44,
+            "k": 1.1,
+            "trend_window": 53,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 55,
+            "prob_threshold": 0.62,
+            "max_depth": 4,
+            "learning_rate": 0.04113020689691412,
+            "n_estimators": 300,
+            "subsample": 1.0
+        }
+    },
+    "KO": {
+        "VolTarget": {
+            "target_vol": 0.05,
+            "trend_window": 81,
+            "ma_type": "sma",
+            "max_leverage": 2.5,
+            "bearish_exposure": 0.25,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.001354869596663631,
+            "lstm_layers": 1,
+            "lstm_lookback": 30,
+            "lstm_dropout": 0.2
+        },
+        "Bollinger": {
+            "window": 12,
+            "k": 1.2,
+            "trend_window": 24,
             "ma_type": "ema"
         },
         "MomentumXGB": {
-            "ma_window": 69,
-            "prob_threshold": 0.67
+            "ma_window": 93,
+            "prob_threshold": 0.51,
+            "max_depth": 3,
+            "learning_rate": 0.016370012703549323,
+            "n_estimators": 200,
+            "subsample": 0.7
+        }
+    },
+    "NVDA": {
+        "VolTarget": {
+            "target_vol": 0.36,
+            "trend_window": 133,
+            "ma_type": "sma",
+            "max_leverage": 1.7000000000000002,
+            "bearish_exposure": 0.45,
+            "lstm_hidden_dim": 32,
+            "lstm_lr": 0.0033818410881790353,
+            "lstm_layers": 2,
+            "lstm_lookback": 35,
+            "lstm_dropout": 0.5
+        },
+        "Bollinger": {
+            "window": 22,
+            "k": 1.5,
+            "trend_window": 137,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 92,
+            "prob_threshold": 0.63,
+            "max_depth": 6,
+            "learning_rate": 0.016772328571005787,
+            "n_estimators": 50,
+            "subsample": 0.9
+        }
+    },
+    "SPY": {
+        "VolTarget": {
+            "target_vol": 0.09,
+            "trend_window": 177,
+            "ma_type": "sma",
+            "max_leverage": 2.6,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 32,
+            "lstm_lr": 0.00045549860539801474,
+            "lstm_layers": 1,
+            "lstm_lookback": 45,
+            "lstm_dropout": 0.2
+        },
+        "Bollinger": {
+            "window": 13,
+            "k": 2.9000000000000004,
+            "trend_window": 30,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 82,
+            "prob_threshold": 0.53,
+            "max_depth": 6,
+            "learning_rate": 0.023509422776913824,
+            "n_estimators": 250,
+            "subsample": 0.7
+        }
+    },
+    "GOOG": {
+        "VolTarget": {
+            "target_vol": 0.08,
+            "trend_window": 217,
+            "ma_type": "sma",
+            "max_leverage": 2.7,
+            "bearish_exposure": 0.15000000000000002,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.00012634331092244337,
+            "lstm_layers": 1,
+            "lstm_lookback": 40,
+            "lstm_dropout": 0.30000000000000004
+        },
+        "Bollinger": {
+            "window": 42,
+            "k": 2.4000000000000004,
+            "trend_window": 29,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 28,
+            "prob_threshold": 0.51,
+            "max_depth": 3,
+            "learning_rate": 0.014107635885761432,
+            "n_estimators": 50,
+            "subsample": 0.8
+        }
+    },
+    "META": {
+        "VolTarget": {
+            "target_vol": 0.25,
+            "trend_window": 10,
+            "ma_type": "sma",
+            "max_leverage": 1.6,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.0007216601329347182,
+            "lstm_layers": 2,
+            "lstm_lookback": 45,
+            "lstm_dropout": 0.1
+        },
+        "Bollinger": {
+            "window": 18,
+            "k": 1.0,
+            "trend_window": 9,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 11,
+            "prob_threshold": 0.55,
+            "max_depth": 6,
+            "learning_rate": 0.018479022675211964,
+            "n_estimators": 100,
+            "subsample": 1.0
         }
     },
     "XOM": {
         "VolTarget": {
-            "target_vol": 0.38,
-            "trend_window": 210,
-            "ma_type": "sma"
+            "target_vol": 0.2,
+            "trend_window": 193,
+            "ma_type": "sma",
+            "max_leverage": 1.8,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 64,
+            "lstm_lr": 0.0001741031939644227,
+            "lstm_layers": 2,
+            "lstm_lookback": 55,
+            "lstm_dropout": 0.1
         },
         "Bollinger": {
-            "window": 21,
-            "k": 2.5,
-            "trend_window": 152,
+            "window": 11,
+            "k": 1.6,
+            "trend_window": 9,
             "ma_type": "sma"
         },
         "MomentumXGB": {
-            "ma_window": 81,
-            "prob_threshold": 0.6
+            "ma_window": 34,
+            "prob_threshold": 0.5800000000000001,
+            "max_depth": 3,
+            "learning_rate": 0.016922103129635935,
+            "n_estimators": 250,
+            "subsample": 0.6
+        }
+    },
+    "BAC": {
+        "VolTarget": {
+            "target_vol": 0.37,
+            "trend_window": 21,
+            "ma_type": "ema",
+            "max_leverage": 1.8,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.00010089740406341462,
+            "lstm_layers": 2,
+            "lstm_lookback": 20,
+            "lstm_dropout": 0.4
+        },
+        "Bollinger": {
+            "window": 15,
+            "k": 2.6,
+            "trend_window": 14,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 35,
+            "prob_threshold": 0.52,
+            "max_depth": 5,
+            "learning_rate": 0.01281234418173941,
+            "n_estimators": 100,
+            "subsample": 0.9
+        }
+    },
+    "CMG": {
+        "VolTarget": {
+            "target_vol": 0.09,
+            "trend_window": 45,
+            "ma_type": "sma",
+            "max_leverage": 1.8,
+            "bearish_exposure": 0.0,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.0008611030530405538,
+            "lstm_layers": 1,
+            "lstm_lookback": 40,
+            "lstm_dropout": 0.2
+        },
+        "Bollinger": {
+            "window": 49,
+            "k": 1.9,
+            "trend_window": 69,
+            "ma_type": "ema"
+        },
+        "MomentumXGB": {
+            "ma_window": 46,
+            "prob_threshold": 0.54,
+            "max_depth": 4,
+            "learning_rate": 0.012736402658887147,
+            "n_estimators": 200,
+            "subsample": 0.7
+        }
+    },
+    "MSFT": {
+        "VolTarget": {
+            "target_vol": 0.35,
+            "trend_window": 12,
+            "ma_type": "sma",
+            "max_leverage": 1.8,
+            "bearish_exposure": 0.25,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.002565556117757094,
+            "lstm_layers": 2,
+            "lstm_lookback": 45,
+            "lstm_dropout": 0.30000000000000004
+        },
+        "Bollinger": {
+            "window": 23,
+            "k": 1.7000000000000002,
+            "trend_window": 17,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 88,
+            "prob_threshold": 0.67,
+            "max_depth": 5,
+            "learning_rate": 0.03381290744279497,
+            "n_estimators": 150,
+            "subsample": 0.6
+        }
+    },
+    "TSLA": {
+        "VolTarget": {
+            "target_vol": 0.07,
+            "trend_window": 12,
+            "ma_type": "sma",
+            "max_leverage": 1.7000000000000002,
+            "bearish_exposure": 0.1,
+            "lstm_hidden_dim": 128,
+            "lstm_lr": 0.004605797932384744,
+            "lstm_layers": 2,
+            "lstm_lookback": 45,
+            "lstm_dropout": 0.2
+        },
+        "Bollinger": {
+            "window": 29,
+            "k": 2.2,
+            "trend_window": 36,
+            "ma_type": "sma"
+        },
+        "MomentumXGB": {
+            "ma_window": 98,
+            "prob_threshold": 0.56,
+            "max_depth": 4,
+            "learning_rate": 0.14694181149655897,
+            "n_estimators": 300,
+            "subsample": 1.0
         }
     }
 }

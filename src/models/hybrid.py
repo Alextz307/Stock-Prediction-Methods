@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from sklearn.preprocessing import StandardScaler
+from typing import Any
+import optuna
 
 from config.settings import settings
 from src.models.garch import GarchPredictor
@@ -24,8 +26,9 @@ class HybridModel:
         self.garch = GarchPredictor()
         self.lstm: MarketLSTM | None = None
         self.scaler = StandardScaler()
+        self.lookback = 30
 
-    def train(self, df: pd.DataFrame, target_col: str = "vol_garman_klass") -> None:
+    def train(self, df: pd.DataFrame, target_col: str = "vol_garman_klass", trial: Any | None = None, **kwargs) -> None:
         """
         Trains the Hybrid Model pipeline.
         
@@ -36,7 +39,9 @@ class HybridModel:
             
         Args:
             df (pd.DataFrame): Training data.
-            target_col (str): Column name for the "Ground Truth" volatility (e.g., Garman-Klass).
+            target_col (str): "Ground Truth" volatility column.
+            trial (optuna.Trial, optional): Optuna trial for pruning.
+            **kwargs: Hyperparameters for LSTM (hidden_dim, lr, num_layers).
         """
 
         print("--- Starting Hybrid Model Training ---")
@@ -72,48 +77,68 @@ class HybridModel:
         scaled_df = aligned_df.copy()
         scaled_df[feature_cols] = self.scaler.transform(X_raw)
 
-        dataset = FinancialDataset(scaled_df, target_col="residuals")
-        loader = DataLoader(dataset, batch_size=settings.LSTM_BATCH_SIZE, shuffle=True)
+        input_dim = scaled_df[feature_cols].shape[1]
+        
+        hidden_dim = kwargs.get("lstm_hidden_dim", 64)
+        num_layers = kwargs.get("lstm_layers", 2)
+        lr = kwargs.get("lstm_lr", 0.001)
+        dropout = kwargs.get("lstm_dropout", 0.2)
+        self.lookback = kwargs.get("lstm_lookback", 30)
+        
+        dataset = FinancialDataset(scaled_df, target_col="residuals", lookback=self.lookback)
+        loader = DataLoader(dataset, batch_size=32, shuffle=True)
+        
+        self.lstm = MarketLSTM(
+            input_dim=input_dim, 
+            hidden_dim=hidden_dim, 
+            num_layers=num_layers,
+            dropout=dropout
+        )
 
-        input_dim = dataset[0][0].shape[1]
-        self.lstm = MarketLSTM(input_dim=input_dim)
-
-        optimizer = optim.Adam(self.lstm.parameters(), lr=settings.LSTM_LEARNING_RATE)
+        optimizer = optim.Adam(self.lstm.parameters(), lr=lr)
         criterion = nn.MSELoss()
 
         self.lstm.train()
-        for epoch in range(settings.LSTM_EPOCHS):
+        for epoch in range(100):
             total_loss = 0.0
             for X_batch, y_batch in loader:
                 optimizer.zero_grad()
 
                 preds = self.lstm(X_batch)
-                loss = criterion(preds.squeeze(), y_batch)
+                loss = criterion(preds.view(-1), y_batch)
 
                 loss.backward()
                 optimizer.step()
 
                 total_loss += loss.item()
+            
+            avg_loss = total_loss / len(loader)
 
             if (epoch + 1) % 10 == 0:
-                print(
-                    f"Epoch {epoch+1}/{settings.LSTM_EPOCHS} - Loss: {total_loss / len(loader):.6f}"
-                )
+                print(f"Epoch {epoch+1}/100 - Loss: {avg_loss:.6f}")
+                
+            if trial:
+                trial.report(avg_loss, epoch)
+                
+                if trial.should_prune():
+                    print(f"Trial pruned at epoch {epoch}")
+                    raise optuna.TrialPruned()
 
     def predict(self, recent_data: pd.DataFrame, horizon: int = 1) -> float:
         """
         Predicts volatility for the next time step (Live Inference).
         """
+
         if self.lstm is None:
             raise ValueError("Model not trained yet.")
 
         garch_daily_forecast = self.garch.predict_volatility(horizon)
         garch_forecast = garch_daily_forecast * float(np.sqrt(252))
 
-        if len(recent_data) < settings.LSTM_LOOKBACK:
-            raise ValueError(f"Not enough data. Need {settings.LSTM_LOOKBACK}.")
+        if len(recent_data) < self.lookback:
+            raise ValueError(f"Not enough data. Need {self.lookback}.")
 
-        recent_window = recent_data.tail(settings.LSTM_LOOKBACK).copy()
+        recent_window = recent_data.tail(self.lookback).copy()
 
         ignore_cols = ["ticker", "date", "target_direction", "return_1d", "residuals"]
         feature_cols = [c for c in recent_data.columns if c not in ignore_cols]
@@ -133,48 +158,28 @@ class HybridModel:
     def predict_series(self, df: pd.DataFrame) -> pd.Series:
         """
         Generates volatility forecasts for an entire dataframe using FIXED parameters.
-        No Lookahead Bias.
         """
+
         if self.lstm is None:
             raise ValueError("Model not trained yet.")
         
-        # 1. GARCH Forecasts (Fixed Params)
         returns = np.log(df['close'] / df['close'].shift(1)).dropna()
         garch_vol = self.garch.generate_vol_series(returns)
         garch_vol_annual = (garch_vol / 100.0) * np.sqrt(252)
         
-        # Realign to DF
         garch_vol_aligned = garch_vol_annual.reindex(df.index).ffill().bfill()
         
-        # 2. LSTM Residuals (Eval Mode)
         ignore_cols = ["ticker", "date", "target_direction", "return_1d", "residuals"]
         feature_cols = [c for c in df.columns if c not in ignore_cols]
         
-        # Prepare Data
-        # Ensure we have the same features
         X_raw = df[feature_cols].values
         X_scaled = self.scaler.transform(X_raw)
         
-        # We need sequences for LSTM. This is slow iteratively, 
-        # but for backtesting we can use a Rolling Dataset or simple iteration.
-        # For speed in vectorization, we might just assume the LSTM correction 
-        # is minor or run it batch-wise if possible.
-        # Given LSTM needs lookback window, let's create a dataset.
-        
-        from src.models.dataset import FinancialDataset
-        from torch.utils.data import DataLoader
-        
-        # Create a dummy target just for Dataset class compatibility
         dummy_df = df.copy()
         dummy_df["residuals"] = 0.0 
-        dummy_df[feature_cols] = X_scaled # Use scaled values directly if modifying Dataset logic? 
-        # actually FinancialDataset scales externally usually. 
-        # Let's check logic: FinancialDataset takes raw or scaled? 
-        # It takes df. In train() we passed scaled_df. So yes.
-        
         dummy_df[feature_cols] = X_scaled
         
-        ds = FinancialDataset(dummy_df, target_col="residuals") # Uses LSTM_LOOKBACK inside
+        ds = FinancialDataset(dummy_df, target_col="residuals", lookback=self.lookback)
         dl = DataLoader(ds, batch_size=1024, shuffle=False)
         
         lstm_preds = []
@@ -184,19 +189,10 @@ class HybridModel:
                 preds = self.lstm(X_batch)
                 lstm_preds.extend(preds.numpy().flatten())
                 
-        # LSTM predictions start after LOOKBACK
-        # Pad the beginning with 0
-        padding = [0.0] * settings.LSTM_LOOKBACK
+        padding = [0.0] * self.lookback
         lstm_series = np.array(padding + lstm_preds)
         
-        # Handle length mismatch if any (Dataset usually trims)
-        # FinancialDataset length = len(df) - lookback
-        # So padding restores it to len(df).
-        
-        if len(lstm_series) < len(df):
-            # Pad end if needed? No, usually start.
-            pass
-        elif len(lstm_series) > len(df):
+        if len(lstm_series) > len(df):
             lstm_series = lstm_series[:len(df)]
             
         lstm_series_pd = pd.Series(lstm_series, index=df.index)

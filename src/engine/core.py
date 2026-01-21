@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import json
+import copy
 from datetime import datetime, timedelta
 
 from src.data.loader import fetch_and_prepare_data
@@ -28,7 +29,7 @@ class BacktestEngine:
         tickers: list[str],
         test_days: int = 252,
         results_dir: str = "results",
-    ) -> None:
+    ):
         """
         Args:
             strategies (dict): Name -> Strategy Object map.
@@ -45,9 +46,9 @@ class BacktestEngine:
 
         self.tuned_params = {}
         if os.path.exists(settings.TUNED_PARAMS_FILE):
-            with open(settings.TUNED_PARAMS_FILE, "r") as f:
-                self.tuned_params = json.load(f)
-            print(f"Loaded tuned parameters from {settings.TUNED_PARAMS_FILE}")
+             with open(settings.TUNED_PARAMS_FILE, "r") as f:
+                 self.tuned_params = json.load(f)
+             print(f"Loaded tuned parameters from {settings.TUNED_PARAMS_FILE}")
 
         os.makedirs(self.charts_dir, exist_ok=True)
 
@@ -105,6 +106,8 @@ class BacktestEngine:
                 params = self.tuned_params[ticker][name]
                 print(f"    [Optimized] Using params: {params}")
                 strategy = default_strategy.__class__(**params)
+            else:
+                strategy = copy.deepcopy(default_strategy)
 
             if hasattr(strategy, "train"):
                 strategy.train(train_df)
@@ -130,7 +133,11 @@ class BacktestEngine:
             self._record_result(ticker, name, net_returns)
 
         chart_path = plot_capital_evolution(
-            ticker, asset_returns, ticker_strat_returns, self.charts_dir
+            ticker, 
+            asset_returns, 
+            ticker_strat_returns, 
+            self.charts_dir,
+            initial_capital=settings.INITIAL_CAPITAL
         )
         print(f"  > Saved chart: {chart_path}")
 

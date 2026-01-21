@@ -56,6 +56,13 @@ def fetch_and_prepare_data(
         df = df.rename(columns={"adj close": "adj_close"})
     
     df = VolatilityEstimator.add_volatility_features(df)
-    df["rsi_14"] = TechnicalIndicators.rsi(df["close"], period=settings.RSI_PERIOD)
+    df["rsi_14"] = TechnicalIndicators.rsi(df["close"], period=14)
+    
+    macd_df = TechnicalIndicators.macd(df["close"])
+    df = df.join(macd_df)
+    
+    df["return_1d"] = df["close"].pct_change()
+    df["return_5d"] = df["close"].pct_change(5)
+    df["return_21d"] = df["close"].pct_change(21)
     
     return df.dropna()

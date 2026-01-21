@@ -10,7 +10,7 @@ class FinancialDataset(Dataset):
         self,
         data: pd.DataFrame,
         target_col: str,
-        lookback: int = settings.LSTM_LOOKBACK,
+        lookback: int = 30,
     ):
         self.lookback = lookback
 

@@ -2,11 +2,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
+
 def plot_capital_evolution(
     ticker: str, 
     benchmark_returns: pd.Series, 
     strategy_returns: dict[str, pd.Series], 
-    save_dir: str
+    save_dir: str,
+    initial_capital: float = 1.0
 ) -> str:
     """
     Plots the cumulative returns of strategies vs benchmark.
@@ -16,6 +18,7 @@ def plot_capital_evolution(
         benchmark_returns (pd.Series): Returns of the asset itself.
         strategy_returns (dict[str, pd.Series]): Map of Strategy Name -> Returns Series.
         save_dir (str): Directory to save the chart.
+        initial_capital (float): Starting capital for the simulation.
         
     Returns:
         str: Path to the saved image.
@@ -23,7 +26,7 @@ def plot_capital_evolution(
 
     plt.figure(figsize=(10, 6))
     
-    cum_bench = (1 + benchmark_returns).cumprod()
+    cum_bench = (1 + benchmark_returns).cumprod() * initial_capital
     plt.plot(
         cum_bench.index, 
         cum_bench, 
@@ -34,12 +37,12 @@ def plot_capital_evolution(
     )
 
     for strat_name, returns in strategy_returns.items():
-        cum_strat = (1 + returns).cumprod()
+        cum_strat = (1 + returns).cumprod() * initial_capital
         plt.plot(cum_strat.index, cum_strat, label=strat_name)
 
     plt.title(f"Capital Evolution: {ticker}")
     plt.xlabel("Date")
-    plt.ylabel("Growth of $1")
+    plt.ylabel("Capital ($)")
     plt.legend()
     plt.grid(True, alpha=0.3)
     

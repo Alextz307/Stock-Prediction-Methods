@@ -12,18 +12,11 @@ from config.settings import settings
 warnings.filterwarnings("ignore")
 
 
-def main():
+def main() -> None:
     strategies = {
-        "VolTarget": VolatilityTargetingStrategy(target_vol=settings.VOL_TARGET),
-        "Bollinger": AdaptiveBollingerStrategy(
-            window=settings.BOLLINGER_WINDOW, 
-            k=settings.BOLLINGER_K,
-            trend_window=settings.BOLLINGER_TREND_WINDOW
-        ),
-        "MomentumXGB": MomentumGatekeeperStrategy(
-            ma_window=settings.MOMENTUM_MA_WINDOW, 
-            prob_threshold=settings.MOMENTUM_PROB_THRESHOLD
-        ),
+        "VolTarget": VolatilityTargetingStrategy(),
+        "Bollinger": AdaptiveBollingerStrategy(),
+        "MomentumXGB": MomentumGatekeeperStrategy(),
     }
     
     engine = BacktestEngine(

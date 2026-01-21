@@ -50,8 +50,8 @@ def calculate_metrics(returns: pd.Series, risk_free_rate: float = 0.0) -> dict[s
     max_drawdown = drawdown.min()
 
     wins = len(returns[returns > 0])
-    total = len(returns)
-    win_rate = wins / total if total > 0 else 0.0
+    active_days = len(returns[returns != 0])
+    win_rate = wins / active_days if active_days > 0 else 0.0
 
     return {
         "Total Return": total_return,
