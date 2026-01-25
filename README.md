@@ -6,7 +6,7 @@ This project implements a sophisticated robust algorithmic trading framework des
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 This guide explains how to set up the environment and run the experiments locally.
 
@@ -51,7 +51,7 @@ This guide explains how to set up the environment and run the experiments locall
 
 ---
 
-## 📈 Running the Experiments
+## Running the Experiments
 
 The project consists of two main stages: **Hyperparameter Tuning** and **Backtesting**.
 
