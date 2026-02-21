@@ -22,9 +22,9 @@ optuna = "^4.6.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.8.0"
-pandas-stubs = "^2.1.0" # Critical for strict typing with Pandas
+pandas-stubs = "^2.1.0"
 
-ruff = "^0.1.0" # Modern linter/formatter
+ruff = "^0.1.0"
 jupyter = "^1.0.0"
 
 [build-system]
@@ -36,4 +36,4 @@ line-length = 88
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "W"] # Styles, Errors, Imports, Warnings
+select = ["E", "F", "I", "W"]
